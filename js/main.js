@@ -5,6 +5,7 @@ const time = document.getElementById("time");
 const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
+const storage = document.getElementById("storage");
 let firstdate_acc;
 let firsttime_acc;
 let firstdate_zyro;
@@ -19,6 +20,8 @@ window.onload = function(){
   localStorage.clear();
   alert("ローカルストレージをリセット");
   }
+
+// ローカルストレージの表示
 
 
 const requestDeviceMotionPermission = function(){
@@ -103,3 +106,8 @@ const requestDeviceMotionPermission = function(){
 
 // ボタンクリックでrequestDeviceMotionPermission実行
 sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
+
+// ストレージデータの表示
+storage.addEventListener("click", function(){
+  storage.innerHTML = localStorage.length;
+});
