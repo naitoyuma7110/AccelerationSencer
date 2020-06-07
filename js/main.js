@@ -25,7 +25,10 @@ window.onload = function(){
 
 
 const requestDeviceMotionPermission = function(){
-  console.log("click");
+  // number++;
+  // localStorage.setItem(number, number);
+  // localStorage.setItem("key", "value");
+  // localStorage.setItem("テスト", "テスト");
   firstdate_acc = new Date();
   firsttime_acc = firstdate_acc.getTime();
   firstdate_zyro = new Date();
@@ -109,5 +112,5 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 // ストレージデータの表示
 storage.addEventListener("click", function(){
-  storage.innerHTML = localStorage.length;
+  alert(localStorage.length);
 });
