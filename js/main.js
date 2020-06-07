@@ -1,14 +1,16 @@
 
-
 const sensor_contents= document.getElementById("sensor_contents");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
 const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
-let firstdate;
-let firsttime;
-let datalist = [];
+let firstdate_acc;
+let firsttime_acc;
+let firstdate_zyro;
+let firsttime_zyro;
+let datalist_acc = [];
+let datalist_zyro = [];
 let number = 0;
 
 
@@ -21,8 +23,10 @@ window.onload = function(){
 
 const requestDeviceMotionPermission = function(){
   console.log("click");
-  firstdate = new Date();
-  firsttime = firstdate.getTime();
+  firstdate_acc = new Date();
+  firsttime_acc = firstdate_acc.getTime();
+  firstdate_zyro = new Date();
+  firsttime_zyro = firstdate_zyro.getTime();
 
   if (
     DeviceMotionEvent &&
@@ -37,8 +41,8 @@ const requestDeviceMotionPermission = function(){
         window.addEventListener('devicemotion', e => {
           
           // 時間の取得
-          var date = new Date();
-          var time_unix = date.getTime() - firsttime;
+          var date_acc = new Date();
+          var time_unix_acc = date_acc.getTime() - firsttime_acc;
 
 
           // 加速度センサー値の取得
@@ -48,13 +52,13 @@ const requestDeviceMotionPermission = function(){
           
           //データの保持
           let acc = {acc_x:x,acc_y:y,acc_z:z};
-          datalist.push(acc);
+          datalist_acc.push(acc);
 
           //ローカルストレージに記録("時間", "加速度")
-          localStorage.setItem(time_unix, JSON.stringify(datalist));
+          localStorage.setItem(time_unix_acc, JSON.stringify(datalist_acc));
 
           // 値の表示
-          time.innerHTML = "time:" + time_unix;
+          time.innerHTML = "time:" + time_unix_acc;
           result1.innerHTML = "重力加速度<br />"+
           "X：" + x.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
@@ -63,19 +67,25 @@ const requestDeviceMotionPermission = function(){
 
         window.addEventListener( "deviceorientation", e => {
 
+          // 時間の取得
+          var date_zyro = new Date();
+          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
+
+          // ジャイロセンサー値取得
           var alpha = event.alpha;
           var beta = event.beta;
           var gamma = event.gamma;
     
-          // //データの保持
-          // let gyro = {al:alpha,be:beta,ga:gamma};
-          // datalist.push(gyro);
+          //データの保持
+          let gyro = {al:alpha,be:beta,ga:gamma};
+          datalist_zyro.push(gyro);
 
-          // //ローカルストレージに記録("時間", "加速度")
-          // localStorage.setItem(time_unix2, JSON.stringify(datalist));
+          //ローカルストレージに記録("時間", "加速度")
+          localStorage.setItem(time_unix_zyro, JSON.stringify(datalist_zyro));
 
-          // time2.innerHTML = "ジャイロセンサー時間" + time_unix2;
+          time2.innerHTML = "ジャイロセンサー時間" + time_unix_zyro;
 
+          // 値の表示
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
             "beta ：" + beta.toFixed(2)  +"°<br />" + 
