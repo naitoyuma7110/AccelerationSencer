@@ -3,26 +3,19 @@
 const sensor_contents= document.getElementById("sensor_contents");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
+const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
 let datalist = [];
 let number = 0;
 
-window.onload=function(){
-  if(!localStorage) {
-  alert('ローカルストレージに対応していない');
+
+//ローカルストレージを削除
+window.onload = function(){
+  localStorage.clear();
+  alert("ローカルストレージをリセット");
   }
-  // セッションストレージ対応判定
-  if(!sessionStorage) {
-  alert('セッションストレージに対応していない');
-    }
-  }
-  
-  //ローカルストレージを削除
-  function removeConfig(){
-    localStorage.clear();
-    alert("削除しました");
-  }
+
 
 const requestDeviceMotionPermission = function(){
   console.log("click");
@@ -42,7 +35,7 @@ const requestDeviceMotionPermission = function(){
           
           // 時間の取得
           var date = new Date();
-          var time_unix = date.getTime();
+          var time_unix = date.getTime() - date;
 
 
           // 加速度センサー値の取得
@@ -54,7 +47,7 @@ const requestDeviceMotionPermission = function(){
           let acc = {acc_x:x,acc_y:y,acc_z:z};
           datalist.push(acc);
 
-          //ローカルストレージに記録
+          //ローカルストレージに記録("時間", "加速度")
           localStorage.setItem(time_unix, JSON.stringify(datalist));
 
           // 値の表示
@@ -66,10 +59,22 @@ const requestDeviceMotionPermission = function(){
         });
 
         window.addEventListener( "deviceorientation", e => {
+
+          // 時間の取得
+          var date2 = new Date();
+          var time_unix2 = date.getTime() - date;
+
           var alpha = event.alpha;
           var beta = event.beta;
           var gamma = event.gamma;
     
+          //データの保持
+          let gyro = {al:alpha,be:beta,ga:gamma};
+          datalist.push(gyro);
+
+          // //ローカルストレージに記録("時間", "加速度")
+          // localStorage.setItem(time_unix2, JSON.stringify(datalist));
+
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
             "beta ：" + beta.toFixed(2)  +"°<br />" + 
