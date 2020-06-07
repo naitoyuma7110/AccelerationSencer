@@ -1,20 +1,12 @@
 
-let sensor_contents= document.getElementById("sensor_contents");
-let output = document.getElementById('output');
-let click = document.getElementById('click');
-let result1 = document.getElementById("result_acc");
-let result2 = document.getElementById("result_gyro");
+const sensor_contents= document.getElementById("sensor_contents");
+const output = document.getElementById('output');
+const result1 = document.getElementById("result_acc");
+const result2 = document.getElementById("result_gyro");
 let number = 0;
 
-
-
-sensor_contents.addEventListener("click", function(){
-  number++;
-  click.textContent = "click" + number;
-  requestDeviceMotionPermission();
-});
-
 const requestDeviceMotionPermission = function(){
+  console.log("click");
   if (
     DeviceMotionEvent &&
     typeof DeviceMotionEvent.requestPermission === 'function'
@@ -57,5 +49,4 @@ const requestDeviceMotionPermission = function(){
 }
 
 // ボタンクリックでrequestDeviceMotionPermission実行
-const startButton = document.getElementById("sensor_contents");
-startButton.addEventListener('click', requestDeviceMotionPermission, false);
+sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
