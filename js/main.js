@@ -6,8 +6,8 @@ const time = document.getElementById("time");
 const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
-let firstdate = new Date();
-let firsttime = firstdate.getTime();
+let firstdate;
+let firsttime;
 let datalist = [];
 let number = 0;
 
@@ -21,8 +21,8 @@ window.onload = function(){
 
 const requestDeviceMotionPermission = function(){
   console.log("click");
-
-  localStorage.setItem('test', 'testvalue');
+  firstdate = new Date();
+  firsttime = firstdate.getTime();
 
   if (
     DeviceMotionEvent &&
@@ -63,10 +63,6 @@ const requestDeviceMotionPermission = function(){
 
         window.addEventListener( "deviceorientation", e => {
 
-          // 時間の取得
-          var date2 = new Date();
-          var time_unix2 = date.getTime() - firsttime;
-
           var alpha = event.alpha;
           var beta = event.beta;
           var gamma = event.gamma;
@@ -78,7 +74,7 @@ const requestDeviceMotionPermission = function(){
           // //ローカルストレージに記録("時間", "加速度")
           // localStorage.setItem(time_unix2, JSON.stringify(datalist));
 
-          time2.innerHTML = "ジャイロセンサー時間" + time_unix2;
+          // time2.innerHTML = "ジャイロセンサー時間" + time_unix2;
 
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
