@@ -112,5 +112,22 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 // ストレージデータの表示
 storage.addEventListener("click", function(){
-  alert(localStorage.length);
+  let finalArray = [];
+  for(var i = 0; i < localStorage.length ; i++) {
+    // デバッグ用
+    // var localstragekey = localStorage.key(i);
+    // var d = JSON.parse(localStorage.getItem(localstragekey));
+    // let valueArray = [localstragekey, d.valuex, d.valuey, d.valuez];
+    // finalArray = finalArray.concat(valueArray);
+
+    var localstragekey = localStorage.key(i);
+    var d = JSON.parse(localStorage.getItem(localstragekey));
+    let valueArray =  [localstragekey, d.acc_x, d.acc_y, d.acc_z, d.al, d.be, d.ga];
+    finalArray = finalArray.concat(valueArray);
+  }
+  
+  let blob = new Blob([finalArray],{type:"text/csv"});
+  let link = document.getElementById("download");
+  link.href = URL.createObjectURL(blob);
+  link.download = '作ったファイル.csv';
 });
