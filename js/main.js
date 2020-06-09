@@ -28,7 +28,7 @@ window.onload = function(){
 
 const requestDeviceMotionPermission = function(){
   // デバッグ用ストレージデータ保存
-  // number++;
+  number++;
   // localStorage.setItem(number, number);
   // localStorage.setItem("acc_xyz", JSON.stringify({valuex:1, valuey:4, valuez:13}));
 
@@ -60,11 +60,12 @@ const requestDeviceMotionPermission = function(){
           var y = event.accelerationIncludingGravity.y;
           var z = event.accelerationIncludingGravity.z;
           
-          //データの保持
+           //データの保持
           let acc = {acc_x:x,acc_y:y,acc_z:z};
+          datalist_acc.push(acc);
 
-          //ローカルストレージに記録("時間", "加速度")  JSON型
-          localStorage.setItem(time_unix_acc, JSON.stringify(acc));
+           //ローカルストレージに記録("時間", "加速度")
+          localStorage.setItem(time_unix_acc, JSON.stringify(datalist_acc));
 
           // 値の表示
           time.innerHTML = "time:" + time_unix_acc;
@@ -87,9 +88,10 @@ const requestDeviceMotionPermission = function(){
     
           //データの保持
           let gyro = {al:alpha,be:beta,ga:gamma};
+          datalist_zyro.push(gyro);
 
-          //ローカルストレージに記録("時間", "ジャイロ")  JSON型
-          localStorage.setItem(time_unix_gyro, JSON.stringify(gyro));
+          //ローカルストレージに記録("時間", "加速度")
+          localStorage.setItem(time_unix_zyro, JSON.stringify(datalist_zyro));
 
           time2.innerHTML = "ジャイロセンサー時間" + time_unix_gyro;
 
