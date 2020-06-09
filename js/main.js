@@ -6,14 +6,12 @@ const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
 const storage = document.getElementById("storage");
-const list = document.getElementById("list");
-
 let firstdate_acc;
 let firsttime_acc;
-let firstdate_gyro;
-let firsttime_gyro;
+let firstdate_zyro;
+let firsttime_zyro;
 let datalist_acc = [];
-let datalist_gyro = [];
+let datalist_zyro = [];
 let number = 0;
 
 
@@ -27,23 +25,21 @@ window.onload = function(){
 
 
 const requestDeviceMotionPermission = function(){
-  // デバッグ用ストレージデータ保存
-  number++;
+  // number++;
   // localStorage.setItem(number, number);
-  // localStorage.setItem("acc_xyz", JSON.stringify({valuex:1, valuey:4, valuez:13}));
-
-  // 測定開始時間を保持
+  // localStorage.setItem("key", "value");
+  // localStorage.setItem("テスト", "テスト");
   firstdate_acc = new Date();
   firsttime_acc = firstdate_acc.getTime();
-  firstdate_gyro = new Date();
-  firsttime_gyro = firstdate_gyro.getTime();
+  firstdate_zyro = new Date();
+  firsttime_zyro = firstdate_zyro.getTime();
 
   if (
     DeviceMotionEvent &&
     typeof DeviceMotionEvent.requestPermission === 'function'
   ) {
     // iOS 13+
-    // センサーアクセス許可を取得
+    // 許可を取得
     DeviceMotionEvent.requestPermission()
     .then(permissionState => {
       if (permissionState === 'granted') {
@@ -60,11 +56,11 @@ const requestDeviceMotionPermission = function(){
           var y = event.accelerationIncludingGravity.y;
           var z = event.accelerationIncludingGravity.z;
           
-           //データの保持
+          //データの保持
           let acc = {acc_x:x,acc_y:y,acc_z:z};
           datalist_acc.push(acc);
 
-           //ローカルストレージに記録("時間", "加速度")
+          //ローカルストレージに記録("時間", "加速度")
           localStorage.setItem(time_unix_acc, JSON.stringify(datalist_acc));
 
           // 値の表示
@@ -78,8 +74,8 @@ const requestDeviceMotionPermission = function(){
         window.addEventListener( "deviceorientation", e => {
 
           // 時間の取得
-          var date_gyro = new Date();
-          var time_unix_gyro = date_gyro.getTime() - firsttime_gyro;
+          var date_zyro = new Date();
+          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
 
           // ジャイロセンサー値取得
           var alpha = event.alpha;
@@ -93,7 +89,7 @@ const requestDeviceMotionPermission = function(){
           //ローカルストレージに記録("時間", "加速度")
           localStorage.setItem(time_unix_zyro, JSON.stringify(datalist_zyro));
 
-          time2.innerHTML = "ジャイロセンサー時間" + time_unix_gyro;
+          time2.innerHTML = "ジャイロセンサー時間" + time_unix_zyro;
 
           // 値の表示
           result2.innerHTML = "ジャイロセンサー<br />" +
@@ -116,23 +112,5 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 // ストレージデータの表示
 storage.addEventListener("click", function(){
-  let finalArray = [];
-  for(var i = 0; i < localStorage.length ; i++) {
-    // デバッグ用
-    // var localstragekey = localStorage.key(i);
-    // var d = JSON.parse(localStorage.getItem(localstragekey));
-    // let valueArray = [localstragekey, d.valuex, d.valuey, d.valuez];
-    // finalArray = finalArray.concat(valueArray);
-
-    var localstragekey = localStorage.key(i);
-    var d = JSON.parse(localStorage.getItem(localstragekey));
-    let valueArray =  [localstragekey, d.acc_x, d.acc_y, d.acc_z, d.al, d.be, d.ga];
-    finalArray = finalArray.concat(valueArray);
-  }
-  
-  let blob = new Blob([finalArray],{type:"text/csv"});
-  let link = document.getElementById("download");
-  link.href = URL.createObjectURL(blob);
-  link.download = '作ったファイル.csv';
-
+  alert(localStorage.length);
 });
