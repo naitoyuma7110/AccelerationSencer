@@ -5,32 +5,16 @@ const time = document.getElementById("time");
 const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
-const storage = document.getElementById("storage");
+
 let firstdate_acc;
 let firsttime_acc;
 let firstdate_zyro;
 let firsttime_zyro;
 let datalist_acc = [];
 let datalist_zyro = [];
-let number = 0;
-
-
-//ローカルストレージを削除
-window.onload = function(){
-  localStorage.clear();
-  alert("ローカルストレージをリセット");
-  }
-
-// ローカルストレージの表示
-
 
 const requestDeviceMotionPermission = function(){
-  // number++;
-  // localStorage.setItem(number, number);
-  // localStorage.setItem("key", "value");
-  // localStorage.setItem("テスト", "テスト");
-  localStorage.setItem("time", {acc_x:1, acc_y:2, acc_z:3});
-
+  // 計測開始時間を保持
   firstdate_acc = new Date();
   firsttime_acc = firstdate_acc.getTime();
   firstdate_zyro = new Date();
@@ -48,25 +32,21 @@ const requestDeviceMotionPermission = function(){
         // devicemotionをイベントリスナーに追加
         window.addEventListener('devicemotion', e => {
           
-          // 時間の取得
+          // 計測中の経過時間を取得
           var date_acc = new Date();
           var time_unix_acc = date_acc.getTime() - firsttime_acc;
-
 
           // 加速度センサー値の取得
           var x = event.accelerationIncludingGravity.x;
           var y = event.accelerationIncludingGravity.y;
           var z = event.accelerationIncludingGravity.z;
           
-          //データの保持
-          let acc = [time_unix_acc, {acc_x:x,acc_y:y,acc_z:z}];
+          //データを配列で保持 array = [ [...], [...], ...]
+          let acc = [time_unix_acc, x, y, z];
           datalist_acc.concat(acc);
 
-          //ローカルストレージに記録("時間", "加速度")
-          // localStorage.setItem(time_unix_acc, JSON.stringify(datalist_acc));
-
           // 値の表示
-          time.innerHTML = "time:" + time_unix_acc;
+          time.innerHTML = "加速度センサー時間:" + time_unix_acc.toFixed(2);
           result1.innerHTML = "重力加速度<br />"+
           "X：" + x.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
@@ -85,61 +65,50 @@ const requestDeviceMotionPermission = function(){
           var gamma = event.gamma;
     
           //データの保持
-          let gyro = [time_unix_zyro, {al:alpha,be:beta,ga:gamma}];
+          let gyro = [time_unix_zyro, alpha, beta, gamma];
           datalist_zyro.concat(gyro);
 
-          //ローカルストレージに記録("時間", "加速度")
-          // localStorage.setItem(time_unix_zyro, JSON.stringify(datalist_zyro));
-
-          time2.innerHTML = "ジャイロセンサー時間" + time_unix_zyro;
-
+          
           // 値の表示
+          time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro.toFixed(2);
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
             "beta ：" + beta.toFixed(2)  +"°<br />" + 
             "gamma：" + gamma.toFixed(2) +"°<br />";
         }, false);
       } else {
+        // センサーアクセス許可が得られなかった場合
         output.textContent = "Not Accept";
       }
     })
-    .catch(console.error) // https通信でない場合などで許可を取得できなかった場合
+    .catch(console.error) 
   } else {
+    // https通信でない場合などで許可を取得できなかった場合
     output.textContent = "Error";
   }
 }
 
-// ボタンクリックでrequestDeviceMotionPermission実行
+//クリックでアクセス許可、計測、保存、表示を実行
 sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
-// ストレージデータの表示
-// storage.addEventListener("click", function(){
-//   let finalArray = [];
-//   for(var i = 0; i < localStorage.length ; i++) {
-//     // デバッグ用
-//     // var localstragekey = localStorage.key(i);
-//     // var d = JSON.parse(localStorage.getItem(localstragekey));
-//     // let valueArray = [localstragekey, d.valuex, d.valuey, d.valuez];
-//     // finalArray = finalArray.concat(valueArray);
-
-//     var localstragekey = localStorage.key(i);
-//     var d = JSON.parse(localStorage.getItem(localstragekey));
-//     let valueArray =  [localstragekey, d.acc_x, d.acc_y, d.acc_z, d.al, d.be, d.ga];
-
-//     finalArray = finalArray.concat(valueArray);
-//     finalArray.forEach(function(rowvals){
-//       let row = rowvals.join(",");
-//       csvData +=row + "\r\n";
-//     });
-//   }
-// });
-
 download.addEventListener("click", function(){
-  // 加速度、ジャイロデータの取得
-  // alert(datalist_acc);
-  // alert(datalist_zyro);
+  // デバッグ用ダミー計測値
+  // datalist_acc = [
+  //   [1, 1, 2, 3],
+  //   [2, 3, 2, 4],
+  //   [3, 5, 3, -5]
+  // ];
 
-  let blob = new Blob([datalist_acc],{type:"text/csv"});
+  // CSV用配列  array = [time, x, y, z, '\n', time, x, y, ...]
+  let csvData = ["time", "x", "y", "z", '\n'];
+  for (let i = 0; i < datalist_acc.length; i++) {
+    let row = Object.values(datalist_acc[i]).join(',');
+    csvData += row + '\n';
+    }
+  // console.log(csvData);
+
+  // Downloadボタンでcsv出力
+  let blob = new Blob([csvData],{type:"text/csv"});
   let link = document.getElementById("download");
   link.href = URL.createObjectURL(blob);
   link.download = '作ったファイル.csv';
