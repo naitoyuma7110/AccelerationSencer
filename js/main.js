@@ -139,7 +139,7 @@ download.addEventListener("click", function(){
   // alert(datalist_acc);
   // alert(datalist_zyro);
 
-  let blob = new Blob([date_acc],{type:"text/csv"});
+  let blob = new Blob([datalist_acc],{type:"text/csv"});
   let link = document.getElementById("download");
   link.href = URL.createObjectURL(blob);
   link.download = '作ったファイル.csv';
