@@ -46,7 +46,7 @@ const requestDeviceMotionPermission = function(){
           datalist_acc = datalist_acc.concat(acc);
 
           // 値の表示
-          time.innerHTML = "加速度センサー時間:" + time_unix_acc.toFixed(2);
+          time.innerHTML = "加速度センサー時間:" + time_unix_acc.toFixed(-1);
           result1.innerHTML = "重力加速度<br />"+
           "X：" + x.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
@@ -70,7 +70,7 @@ const requestDeviceMotionPermission = function(){
 
           
           // 値の表示
-          time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro.toFixed(2);
+          time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro.toFixed(-1);
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
             "beta ：" + beta.toFixed(2)  +"°<br />" + 
@@ -109,7 +109,7 @@ download.addEventListener("click", function(){
   // datalist_acc = datalist_acc.concat(acc);
 
   // console.log(datalist_acc);
-  
+
   // datalist_acc = [
   //   [1, 1, 2, 3],
   //   [2, 3, 2, 4],
