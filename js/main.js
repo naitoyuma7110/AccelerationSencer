@@ -43,7 +43,7 @@ const requestDeviceMotionPermission = function(){
           
           //データを配列で保持 array = [ [...], [...], ...]
           let acc = [time_unix_acc, x, y, z];
-          datalist_acc.concat(acc);
+          datalist_acc = datalist_acc.concat(acc);
 
           // 値の表示
           time.innerHTML = "加速度センサー時間:" + time_unix_acc.toFixed(2);
@@ -66,7 +66,7 @@ const requestDeviceMotionPermission = function(){
     
           //データの保持
           let gyro = [time_unix_zyro, alpha, beta, gamma];
-          datalist_zyro.concat(gyro);
+          datalist_zyro = datalist_zyro.concat(gyro);
 
           
           // 値の表示
@@ -93,6 +93,23 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 download.addEventListener("click", function(){
   // デバッグ用ダミー計測値
+  // let acc = [time_unix_acc, x, y, z];
+  // datalist_acc.concat(acc);
+
+  // let acc = [1,3,2,-2];
+  // datalist_acc = datalist_acc.concat(acc);
+
+  // acc = [2,2,5,9];
+  // datalist_acc = datalist_acc.concat(acc);
+
+  // acc = [3,1,-2,2];
+  // datalist_acc = datalist_acc.concat(acc);
+
+  // acc = [4,-3,-2,5];
+  // datalist_acc = datalist_acc.concat(acc);
+
+  // console.log(datalist_acc);
+  
   // datalist_acc = [
   //   [1, 1, 2, 3],
   //   [2, 3, 2, 4],
