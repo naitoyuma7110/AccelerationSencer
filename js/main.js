@@ -29,6 +29,8 @@ const requestDeviceMotionPermission = function(){
   // localStorage.setItem(number, number);
   // localStorage.setItem("key", "value");
   // localStorage.setItem("テスト", "テスト");
+  localStorage.setItem("time", {acc_x:1, acc_y:2, acc_z:3});
+
   firstdate_acc = new Date();
   firsttime_acc = firstdate_acc.getTime();
   firstdate_zyro = new Date();
@@ -57,11 +59,11 @@ const requestDeviceMotionPermission = function(){
           var z = event.accelerationIncludingGravity.z;
           
           //データの保持
-          let acc = {acc_x:x,acc_y:y,acc_z:z};
-          datalist_acc.push(acc);
+          let acc = [time_unix_acc, {acc_x:x,acc_y:y,acc_z:z}];
+          datalist_acc.concat(acc);
 
           //ローカルストレージに記録("時間", "加速度")
-          localStorage.setItem(time_unix_acc, JSON.stringify(datalist_acc));
+          // localStorage.setItem(time_unix_acc, JSON.stringify(datalist_acc));
 
           // 値の表示
           time.innerHTML = "time:" + time_unix_acc;
@@ -83,11 +85,11 @@ const requestDeviceMotionPermission = function(){
           var gamma = event.gamma;
     
           //データの保持
-          let gyro = {al:alpha,be:beta,ga:gamma};
-          datalist_zyro.push(gyro);
+          let gyro = [time_unix_zyro, {al:alpha,be:beta,ga:gamma}];
+          datalist_zyro.concat(gyro);
 
           //ローカルストレージに記録("時間", "加速度")
-          localStorage.setItem(time_unix_zyro, JSON.stringify(datalist_zyro));
+          // localStorage.setItem(time_unix_zyro, JSON.stringify(datalist_zyro));
 
           time2.innerHTML = "ジャイロセンサー時間" + time_unix_zyro;
 
@@ -111,23 +113,36 @@ const requestDeviceMotionPermission = function(){
 sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 // ストレージデータの表示
-storage.addEventListener("click", function(){
-  let finalArray = [];
-  for(var i = 0; i < localStorage.length ; i++) {
-    // デバッグ用
-    // var localstragekey = localStorage.key(i);
-    // var d = JSON.parse(localStorage.getItem(localstragekey));
-    // let valueArray = [localstragekey, d.valuex, d.valuey, d.valuez];
-    // finalArray = finalArray.concat(valueArray);
+// storage.addEventListener("click", function(){
+//   let finalArray = [];
+//   for(var i = 0; i < localStorage.length ; i++) {
+//     // デバッグ用
+//     // var localstragekey = localStorage.key(i);
+//     // var d = JSON.parse(localStorage.getItem(localstragekey));
+//     // let valueArray = [localstragekey, d.valuex, d.valuey, d.valuez];
+//     // finalArray = finalArray.concat(valueArray);
 
-    var localstragekey = localStorage.key(i);
-    var d = JSON.parse(localStorage.getItem(localstragekey));
-    let valueArray =  [localstragekey, d.acc_x, d.acc_y, d.acc_z, d.al, d.be, d.ga];
-    finalArray = finalArray.concat(valueArray);
-  }
-  
-  let blob = new Blob([finalArray],{type:"text/csv"});
-  let link = document.getElementById("download");
-  link.href = URL.createObjectURL(blob);
-  link.download = '作ったファイル.csv';
-});
+//     var localstragekey = localStorage.key(i);
+//     var d = JSON.parse(localStorage.getItem(localstragekey));
+//     let valueArray =  [localstragekey, d.acc_x, d.acc_y, d.acc_z, d.al, d.be, d.ga];
+
+//     finalArray = finalArray.concat(valueArray);
+//     finalArray.forEach(function(rowvals){
+//       let row = rowvals.join(",");
+//       csvData +=row + "\r\n";
+//     });
+//   }
+// });
+
+download.addEventListener("click", function(){
+  // 加速度、ジャイロデータの取得
+  alert(datalist_acc);
+  alert(datalist_zyro);
+
+
+  // let blob = new Blob([finalArray],{type:"text/csv"});
+  // let link = document.getElementById("download");
+  // link.href = URL.createObjectURL(blob);
+  // link.download = '作ったファイル.csv';
+
+})
