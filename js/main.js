@@ -34,7 +34,7 @@ const requestDeviceMotionPermission = function(){
           
           // 計測中の経過時間を取得
           var date_acc = new Date();
-          var time_unix_acc = date_acc.getTime() - firsttime_acc;
+          var time_unix_acc = date_acc.getTime() - firsttime_acc /100;
 
           // 加速度センサー値の取得
           var x = event.accelerationIncludingGravity.x;
@@ -46,7 +46,7 @@ const requestDeviceMotionPermission = function(){
           datalist_acc = datalist_acc.concat(acc);
 
           // 値の表示
-          time.innerHTML = "加速度センサー時間:" + time_unix_acc.toFixed(-1);
+          time.innerHTML = "加速度センサー時間:" + time_unix_acc;
           result1.innerHTML = "重力加速度<br />"+
           "X：" + x.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
@@ -57,7 +57,7 @@ const requestDeviceMotionPermission = function(){
 
           // 時間の取得
           var date_zyro = new Date();
-          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
+          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro /100;
 
           // ジャイロセンサー値取得
           var alpha = event.alpha;
@@ -70,7 +70,7 @@ const requestDeviceMotionPermission = function(){
 
           
           // 値の表示
-          time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro.toFixed(-1);
+          time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro;
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
             "beta ：" + beta.toFixed(2)  +"°<br />" + 
