@@ -136,13 +136,12 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 download.addEventListener("click", function(){
   // 加速度、ジャイロデータの取得
-  alert(datalist_acc);
-  alert(datalist_zyro);
+  // alert(datalist_acc);
+  // alert(datalist_zyro);
 
-
-  // let blob = new Blob([finalArray],{type:"text/csv"});
-  // let link = document.getElementById("download");
-  // link.href = URL.createObjectURL(blob);
-  // link.download = '作ったファイル.csv';
+  let blob = new Blob([date_acc],{type:"text/csv"});
+  let link = document.getElementById("download");
+  link.href = URL.createObjectURL(blob);
+  link.download = '作ったファイル.csv';
 
 })
