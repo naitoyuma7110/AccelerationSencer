@@ -34,7 +34,7 @@ const requestDeviceMotionPermission = function(){
           
           // 計測中の経過時間を取得
           var date_acc = new Date();
-          var time_unix_acc = date_acc.getTime() - firsttime_acc /100;
+          var time_unix_acc = date_acc.getTime() - firsttime_acc;
 
           // 加速度センサー値の取得
           var x = event.accelerationIncludingGravity.x;
@@ -43,7 +43,7 @@ const requestDeviceMotionPermission = function(){
           
           //データを配列で保持 array = [ [...], [...], ...]
           let acc = [time_unix_acc, x, y, z];
-          datalist_acc = datalist_acc.concat(acc);
+          datalist_acc.push(acc);
 
           // 値の表示
           time.innerHTML = "加速度センサー時間:" + time_unix_acc;
@@ -57,7 +57,7 @@ const requestDeviceMotionPermission = function(){
 
           // 時間の取得
           var date_zyro = new Date();
-          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro /100;
+          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
 
           // ジャイロセンサー値取得
           var alpha = event.alpha;
@@ -66,7 +66,7 @@ const requestDeviceMotionPermission = function(){
     
           //データの保持
           let gyro = [time_unix_zyro, alpha, beta, gamma];
-          datalist_zyro = datalist_zyro.concat(gyro);
+          datalist_zyro.push(gyro);
 
           
           // 値の表示
@@ -93,22 +93,25 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 download.addEventListener("click", function(){
   // デバッグ用ダミー計測値
+  
+  // let acc = [];
+
+  // acc = [1,3,2,-2];
+  // datalist_acc.push(acc);
+  
+  // acc = [2,2,5,9];
+  // datalist_acc.push(acc);
+  
+  // acc = [3,1,-2,2];
+  // datalist_acc.push(acc);
+  
+  // acc = [4,-3,-2,5];
+  // datalist_acc.push(acc);
+  // console.log(datalist_acc);
+  
+  
   // let acc = [time_unix_acc, x, y, z];
   // datalist_acc.concat(acc);
-
-  // let acc = [1,3,2,-2];
-  // datalist_acc = datalist_acc.concat(acc);
-
-  // acc = [2,2,5,9];
-  // datalist_acc = datalist_acc.concat(acc);
-
-  // acc = [3,1,-2,2];
-  // datalist_acc = datalist_acc.concat(acc);
-
-  // acc = [4,-3,-2,5];
-  // datalist_acc = datalist_acc.concat(acc);
-
-  // console.log(datalist_acc);
 
   // datalist_acc = [
   //   [1, 1, 2, 3],
