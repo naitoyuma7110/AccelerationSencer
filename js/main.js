@@ -167,6 +167,6 @@ download.addEventListener("click", function(){
   let blob = new Blob([csvData],{type:"text/csv"});
   let link = document.getElementById("download");
   link.href = URL.createObjectURL(blob);
-  link.download = '作ったファイル.csv';
+  link.download = 'デバイスセンサー計測値.csv';
 })
 
