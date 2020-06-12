@@ -1,24 +1,34 @@
 
+// HTML要素の取得
 const sensor_contents= document.getElementById("sensor_contents");
+const sensor_start= document.getElementById("sensor_start");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
-const time2 = document.getElementById("time2");
 const result1 = document.getElementById("result_acc");
 const result2 = document.getElementById("result_gyro");
 
-let firstdate_acc;
-let firsttime_acc;
-let firstdate_zyro;
-let firsttime_zyro;
-let datalist_acc = [];
-let datalist_zyro = [];
+// 加速度センサー値
+let x = 0;
+let y = 0;
+let z = 0;
 
+// ジャイロセンサー値
+let alpha = 0;
+let beta = 0;
+let gamma = 0;
+
+let firstdate;
+let firsttime;
+let datalist = [];
+
+
+// アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
   // 計測開始時間を保持
-  firstdate_acc = new Date();
-  firsttime_acc = firstdate_acc.getTime();
-  firstdate_zyro = new Date();
-  firsttime_zyro = firstdate_zyro.getTime();
+  // firstdate_acc = new Date();
+  // firsttime_acc = firstdate_acc.getTime();
+  // firstdate_zyro = new Date();
+  // firsttime_zyro = firstdate_zyro.getTime();
 
   if (
     DeviceMotionEvent &&
@@ -30,47 +40,51 @@ const requestDeviceMotionPermission = function(){
     .then(permissionState => {
       if (permissionState === 'granted') {
         // devicemotionをイベントリスナーに追加
+        // 加速度センサーの起動
         window.addEventListener('devicemotion', e => {
           
-          // 計測中の経過時間を取得
-          var date_acc = new Date();
-          var time_unix_acc = date_acc.getTime() - firsttime_acc;
+          // // 計測中の経過時間を取得
+          // var date_acc = new Date();
+          // var time_unix_acc = date_acc.getTime() - firsttime_acc;
 
           // 加速度センサー値の取得
-          var x = event.accelerationIncludingGravity.x;
-          var y = event.accelerationIncludingGravity.y;
-          var z = event.accelerationIncludingGravity.z;
+          x = event.accelerationIncludingGravity.x;
+          y = event.accelerationIncludingGravity.y;
+          z = event.accelerationIncludingGravity.z;
           
-          //データを配列で保持 array = [ [...], [...], ...]
-          let acc = [time_unix_acc, x, y, z];
-          datalist_acc.push(acc);
+          // //データを配列で保持 array = [ [...], [...], ...]
+          // let acc = [time_unix_acc, x, y, z];
+          // datalist.push(acc);
 
           // 値の表示
-          time.innerHTML = "加速度センサー時間:" + time_unix_acc;
+          // time.innerHTML = "加速度センサー時間:" + time_unix_acc;
           result1.innerHTML = "重力加速度<br />"+
           "X：" + x.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
           "Z：" + z.toFixed(2) +"(m/s^2)<br />";
         });
 
+        // deviceorientationをイベントリスナーの追加
+        // ジャイロセンサーを起動
         window.addEventListener( "deviceorientation", e => {
 
-          // 時間の取得
-          var date_zyro = new Date();
-          var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
+          // // 時間の取得
+          // var date_zyro = new Date();
+          // var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
 
           // ジャイロセンサー値取得
-          var alpha = event.alpha;
-          var beta = event.beta;
-          var gamma = event.gamma;
+          alpha = event.alpha;
+          beta = event.beta;
+          gamma = event.gamma;
     
-          //データの保持
-          let gyro = [time_unix_zyro, alpha, beta, gamma];
-          datalist_zyro.push(gyro);
+          // //データの保持
+          // let gyro = [time_unix_zyro, alpha, beta, gamma];
+          // datalist_zyro.push(gyro);
 
           
           // 値の表示
-          time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro;
+          // time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro;
+
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
             "beta ：" + beta.toFixed(2)  +"°<br />" + 
@@ -88,41 +102,63 @@ const requestDeviceMotionPermission = function(){
   }
 }
 
-//クリックでアクセス許可、計測、保存、表示を実行
+//クリックでデバイスセンサーのアクセス承認を実行
 sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
+
+
+// クリックで計測データの保存開始
+sensor_start.addEventListener("click", function(){
+
+  // 測定開始時間の取得
+  firstdate = new Date();
+  firsttime = firstdate.getTime();
+
+  // 計測データの変数保存開始
+  window.setInterval(() => {
+    // 測定経過時間の取得
+    let date = new Date();
+    let time_unix = date.getTime() - firsttime;
+    // 経過時間下一桁切り捨て10ms単位
+    time_unix = Math.round(time_unix/10)/100;
+    //データを配列で保持 array = [ [...], [...], ...]
+    let acc_gyro = [time_unix, x, y, z, alpha, beta, gamma];
+    datalist.push(acc_gyro);
+  
+    // 測定経過時間の表示
+    time.textContent = "TIME:" + time_unix;
+    console.log("action");
+  
+  }, 10); //10ms（0.01秒）毎に実行 
+})
+
+
 
 download.addEventListener("click", function(){
   // デバッグ用ダミー計測値
   
-  // let acc = [];
-
-  // acc = [1,3,2,-2];
-  // datalist_acc.push(acc);
+  // acc_gyro = [1,3,2,-2,5,2,1];
+  // datalist.push(acc);
   
-  // acc = [2,2,5,9];
-  // datalist_acc.push(acc);
+  // acc_gyro = [2,2,5,9,35,4,];
+  // datalist.push(acc);
   
-  // acc = [3,1,-2,2];
-  // datalist_acc.push(acc);
+  // acc_gyro = [3,1,-2,2,12,6,6];
+  // datalist.push(acc);
   
-  // acc = [4,-3,-2,5];
-  // datalist_acc.push(acc);
-  // console.log(datalist_acc);
+  // acc_gyro = [4,-3,-2,5,2,6,4];
+  // datalist.push(acc);
+  // console.log(datalist);
   
-  
-  // let acc = [time_unix_acc, x, y, z];
-  // datalist_acc.concat(acc);
-
-  // datalist_acc = [
-  //   [1, 1, 2, 3],
-  //   [2, 3, 2, 4],
-  //   [3, 5, 3, -5]
+  // datalist = [
+  //   [1, 1, 2, 3, 3, 4, 3],
+  //   [2, 3, 2, 4, 8, 6, 7],
+  //   [3, 5, 3, -5, 6, 7, 9]
   // ];
 
   // CSV用配列  array = [time, x, y, z, '\n', time, x, y, ...]
-  let csvData = ["time", "x", "y", "z", '\n'];
-  for (let i = 0; i < datalist_acc.length; i++) {
-    let row = Object.values(datalist_acc[i]).join(',');
+  let csvData = ["time(sec)", "x", "y", "z", "alpha", "beta", "gamma", '\n'];
+  for (let i = 0; i < datalist.length; i++) {
+    let row = Object.values(datalist[i]).join(',');
     csvData += row + '\n';
     }
   // console.log(csvData);
@@ -132,5 +168,5 @@ download.addEventListener("click", function(){
   let link = document.getElementById("download");
   link.href = URL.createObjectURL(blob);
   link.download = '作ったファイル.csv';
-
 })
+
