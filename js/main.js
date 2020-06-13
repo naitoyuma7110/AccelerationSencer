@@ -48,10 +48,10 @@ const requestDeviceMotionPermission = function(){
           // y = event.acceleration.y;
           // z = event.acceleration.z;
 
-          result1.innerHTML = "重力加速度<br />"+
-          "X：" + x.toFixed(2) +"(m/s^2)<br />" +
-          "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
-          "Z：" + z.toFixed(2) +"(m/s^2)<br />";
+          // result1.innerHTML = "重力加速度<br />"+
+          // "X：" + x.toFixed(2) +"(m/s^2)<br />" +
+          // "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
+          // "Z：" + z.toFixed(2) +"(m/s^2)<br />";
         });
 
         // deviceorientationをイベントリスナーの追加
@@ -63,10 +63,10 @@ const requestDeviceMotionPermission = function(){
           beta = event.beta;
           gamma = event.gamma;
 
-          result2.innerHTML = "ジャイロセンサー<br />" +
-            "alpha：" + alpha.toFixed(2) +"°<br />" +
-            "beta ：" + beta.toFixed(2)  +"°<br />" + 
-            "gamma：" + gamma.toFixed(2) +"°<br />";
+          // result2.innerHTML = "ジャイロセンサー<br />" +
+          //   "alpha：" + alpha.toFixed(2) +"°<br />" +
+          //   "beta ：" + beta.toFixed(2)  +"°<br />" + 
+          //   "gamma：" + gamma.toFixed(2) +"°<br />";
         }, false);
       } else {
         // センサーアクセス許可が得られなかった場合
@@ -105,7 +105,16 @@ sensor_start.addEventListener("click", function(){
     // 測定経過時間の表示
     time.textContent = "TIME:" + time_unix;
     console.log("action");
+
+    result1.innerHTML = "重力加速度<br />"+
+    "X：" + x.toFixed(2) +"(m/s^2)<br />" +
+    "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
+    "Z：" + z.toFixed(2) +"(m/s^2)<br />";
   
+    result2.innerHTML = "ジャイロセンサー<br />" +
+    "alpha：" + alpha.toFixed(2) +"°<br />" +
+    "beta ：" + beta.toFixed(2)  +"°<br />" + 
+    "gamma：" + gamma.toFixed(2) +"°<br />";
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
