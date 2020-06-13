@@ -48,9 +48,13 @@ const requestDeviceMotionPermission = function(){
           // var time_unix_acc = date_acc.getTime() - firsttime_acc;
 
           // 加速度センサー値の取得
-          x = event.accelerationIncludingGravity.x;
-          y = event.accelerationIncludingGravity.y;
-          z = event.accelerationIncludingGravity.z;
+          // x = event.accelerationIncludingGravity.x;
+          // y = event.accelerationIncludingGravity.y;
+          // z = event.accelerationIncludingGravity.z;
+          x = event.acceleration.x;
+          y = event.acceleration.y;
+          z = event.acceleration.z;
+
           
           // //データを配列で保持 array = [ [...], [...], ...]
           // let acc = [time_unix_acc, x, y, z];
