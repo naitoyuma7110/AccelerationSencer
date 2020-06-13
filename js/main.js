@@ -43,7 +43,7 @@ const requestDeviceMotionPermission = function(){
           // y = event.accelerationIncludingGravity.y;
           // z = event.accelerationIncludingGravity.z;
 
-          重力加速度を除いた加速度値
+          // 重力加速度を除いた加速度値
           x = event.acceleration.x;
           y = event.acceleration.y;
           z = event.acceleration.z;
