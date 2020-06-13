@@ -39,14 +39,14 @@ const requestDeviceMotionPermission = function(){
         window.addEventListener('devicemotion', e => {
 
           // 重力加速度値の取得
-          x = event.accelerationIncludingGravity.x;
-          y = event.accelerationIncludingGravity.y;
-          z = event.accelerationIncludingGravity.z;
+          // x = event.accelerationIncludingGravity.x;
+          // y = event.accelerationIncludingGravity.y;
+          // z = event.accelerationIncludingGravity.z;
 
-          // 重力加速度を除いた加速度値
-          // x = event.acceleration.x;
-          // y = event.acceleration.y;
-          // z = event.acceleration.z;
+          重力加速度を除いた加速度値
+          x = event.acceleration.x;
+          y = event.acceleration.y;
+          z = event.acceleration.z;
 
           // result1.innerHTML = "重力加速度<br />"+
           // "X：" + x.toFixed(2) +"(m/s^2)<br />" +
