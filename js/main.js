@@ -24,45 +24,31 @@ let datalist = [];
 
 // アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
-  // 計測開始時間を保持
-  // firstdate_acc = new Date();
-  // firsttime_acc = firstdate_acc.getTime();
-  // firstdate_zyro = new Date();
-  // firsttime_zyro = firstdate_zyro.getTime();
-
+  // デバイスにセンサー機能が実装されているか判定
   if (
     DeviceMotionEvent &&
     typeof DeviceMotionEvent.requestPermission === 'function'
   ) {
-    // iOS 13+
-    // 許可を取得
+    // iOS 13以降はユーザーのアクセス許可が必要
+    // ボタンクリックで許可を取得
     DeviceMotionEvent.requestPermission()
     .then(permissionState => {
       if (permissionState === 'granted') {
         // devicemotionをイベントリスナーに追加
         // 加速度センサーの起動
         window.addEventListener('devicemotion', e => {
-          
-          // // 計測中の経過時間を取得
-          // var date_acc = new Date();
-          // var time_unix_acc = date_acc.getTime() - firsttime_acc;
 
-          // 加速度センサー値の取得
+          // 重力加速度値の取得
           // x = event.accelerationIncludingGravity.x;
           // y = event.accelerationIncludingGravity.y;
           // z = event.accelerationIncludingGravity.z;
+
+          // 重力加速度を除いた加速度値
           x = event.acceleration.x;
           y = event.acceleration.y;
           z = event.acceleration.z;
 
-          
-          // //データを配列で保持 array = [ [...], [...], ...]
-          // let acc = [time_unix_acc, x, y, z];
-          // datalist.push(acc);
-
-          // 値の表示
-          // time.innerHTML = "加速度センサー時間:" + time_unix_acc;
-          result1.innerHTML = "重力加速度<br />"+
+          result1.innerHTML = "加速度<br />"+
           "X：" + x.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
           "Z：" + z.toFixed(2) +"(m/s^2)<br />";
@@ -72,22 +58,10 @@ const requestDeviceMotionPermission = function(){
         // ジャイロセンサーを起動
         window.addEventListener( "deviceorientation", e => {
 
-          // // 時間の取得
-          // var date_zyro = new Date();
-          // var time_unix_zyro = date_zyro.getTime() - firsttime_zyro;
-
           // ジャイロセンサー値取得
           alpha = event.alpha;
           beta = event.beta;
           gamma = event.gamma;
-    
-          // //データの保持
-          // let gyro = [time_unix_zyro, alpha, beta, gamma];
-          // datalist_zyro.push(gyro);
-
-          
-          // 値の表示
-          // time2.innerHTML = "ジャイロセンサー時間：" + time_unix_zyro;
 
           result2.innerHTML = "ジャイロセンサー<br />" +
             "alpha：" + alpha.toFixed(2) +"°<br />" +
@@ -159,7 +133,7 @@ download.addEventListener("click", function(){
   //   [3, 5, 3, -5, 6, 7, 9]
   // ];
 
-  // CSV用配列  array = [time, x, y, z, '\n', time, x, y, ...]
+  // CSV用配列 csvData = [time, x, y, z, '\n', time, x, y, ...]
   let csvData = ["time(sec)", "x", "y", "z", "alpha", "beta", "gamma", '\n'];
   for (let i = 0; i < datalist.length; i++) {
     let row = Object.values(datalist[i]).join(',');
@@ -171,6 +145,6 @@ download.addEventListener("click", function(){
   let blob = new Blob([csvData],{type:"text/csv"});
   let link = document.getElementById("download");
   link.href = URL.createObjectURL(blob);
-  link.download = 'デバイスセンサー計測値.csv';
+  link.download = 'センサー計測値.csv';
 })
 
