@@ -5,7 +5,15 @@ const sensor_start= document.getElementById("sensor_start");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
 const result1 = document.getElementById("result_acc");
+const result_x = document.getElementById("result_x");
+const result_y = document.getElementById("result_y");
+const result_z = document.getElementById("result_z");
+
 const result2 = document.getElementById("result_gyro");
+const result_al = document.getElementById("result_al");
+const result_be = document.getElementById("result_be");
+const result_ga = document.getElementById("result_ga");
+
 
 // 加速度センサー値
 let x = 0;
@@ -49,10 +57,15 @@ const requestDeviceMotionPermission = function(){
           // z = event.acceleration.z;
 
           // センサー値の表示
-          result1.innerHTML = "重力加速度<br />"+
-          "X：" + x.toFixed(2) +"(m/s^2)<br />" +
-          "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
-          "Z：" + z.toFixed(2) +"(m/s^2)<br />";
+          // result1.innerHTML = "重力加速度<br />"+
+          // "X：" + x.toFixed(2) +"(m/s^2)<br />" +
+          // "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
+          // "Z：" + z.toFixed(2) +"(m/s^2)<br />";
+
+          result_x.innerHTML = "X：" + x.toFixed(2);
+          result_y.innerHTML = "Y：" + y.toFixed(2);
+          result_z.innerHTML = "Z：" + z.toFixed(2);
+          
         });
 
         // deviceorientationをイベントリスナーの追加
@@ -64,20 +77,25 @@ const requestDeviceMotionPermission = function(){
           beta = event.beta;
           gamma = event.gamma;
 
-          result2.innerHTML = "ジャイロセンサー<br />" +
-          "alpha：" + alpha.toFixed(2) +"°<br />" +
-          "beta ：" + beta.toFixed(2)  +"°<br />" + 
-          "gamma：" + gamma.toFixed(2) +"°<br />";
+          // result2.innerHTML = "ジャイロセンサー<br />" +
+          // "alpha：" + alpha.toFixed(2) +"°<br />" +
+          // "beta ：" + beta.toFixed(2)  +"°<br />" + 
+          // "gamma：" + gamma.toFixed(2) +"°<br />";
+
+          result_al.innerHTML = "alpha：" + alpha.toFixed(2);
+          result_be.innerHTML = "beta ：" + beta.toFixed(2);
+          result_ga.innerHTML = "gamma：" + gamma.toFixed(2);
+
         }, false);
       } else {
         // センサーアクセス許可が得られなかった場合
-        output.textContent = "Not Accept";
+        output.textContent = "Error Comment: Not Accept";
       }
     })
     .catch(console.error) 
   } else {
     // https通信でない場合などで許可を取得できなかった場合
-    output.textContent = "デバイスが対応していません";
+    output.textContent = "Error Comment: デバイスが対応していません";
   }
 }
 
@@ -97,14 +115,16 @@ sensor_start.addEventListener("click", function(){
     // 測定経過時間の取得
     let date = new Date();
     let time_unix = date.getTime() - firsttime;
+
     // 経過時間下一桁切り捨て10ms単位
     time_unix = Math.round(time_unix/10)/100;
+
     //データを配列で保持 array = [ [...], [...], ...]
     let acc_gyro = [time_unix, x, y, z, alpha, beta, gamma];
     datalist.push(acc_gyro);
   
     // 測定経過時間の表示
-    time.textContent = "TIME:" + time_unix;
+    time.textContent = "Time(sec)：" + time_unix;
     console.log("action");
   }, 10); //10ms（0.01秒）毎に実行 
 })
