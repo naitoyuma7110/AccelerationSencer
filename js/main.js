@@ -20,6 +20,11 @@ let x = 0;
 let y = 0;
 let z = 0;
 
+// 重力加速度を除いた加速度値
+let gx = 0;
+let gy = 0;
+let gz = 0;
+
 // ジャイロセンサー値
 let alpha = 0;
 let beta = 0;
@@ -52,15 +57,15 @@ const requestDeviceMotionPermission = function(){
           z = event.accelerationIncludingGravity.z;
 
           // 重力加速度を除いた加速度値
-          // x = event.acceleration.x;
-          // y = event.acceleration.y;
-          // z = event.acceleration.z;
+          gx = event.acceleration.x;
+          gy = event.acceleration.y;
+          gz = event.acceleration.z;
 
-          // センサー値の表示
-          // result1.innerHTML = "重力加速度<br />"+
-          // "X：" + x.toFixed(2) +"(m/s^2)<br />" +
-          // "Y：" + y.toFixed(2) +"(m/s^2)<br />" + 
-          // "Z：" + z.toFixed(2) +"(m/s^2)<br />";
+          センサー値の表示
+          result1.innerHTML = "重力加速度<br />"+
+          "X：" + gx.toFixed(2) +"(m/s^2)<br />" +
+          "Y：" + gy.toFixed(2) +"(m/s^2)<br />" + 
+          "Z：" + gz.toFixed(2) +"(m/s^2)<br />";
 
           result_x.innerHTML = "X：" + x.toFixed(2);
           result_y.innerHTML = "Y：" + y.toFixed(2);
