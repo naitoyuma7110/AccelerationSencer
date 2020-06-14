@@ -4,12 +4,11 @@ const sensor_contents= document.getElementById("sensor_contents");
 const sensor_start= document.getElementById("sensor_start");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
-const result1 = document.getElementById("result1");
+
 const result_x = document.getElementById("result_x");
 const result_y = document.getElementById("result_y");
 const result_z = document.getElementById("result_z");
 
-const result2 = document.getElementById("result_gyro");
 const result_al = document.getElementById("result_al");
 const result_be = document.getElementById("result_be");
 const result_ga = document.getElementById("result_ga");
@@ -21,9 +20,9 @@ let y = 0;
 let z = 0;
 
 // 重力加速度を除いた加速度値
-let gx = 0;
-let gy = 0;
-let gz = 0;
+// let gx = 0;
+// let gy = 0;
+// let gz = 0;
 
 // ジャイロセンサー値
 let alpha = 0;
@@ -57,12 +56,11 @@ const requestDeviceMotionPermission = function(){
           y = event.accelerationIncludingGravity.y;
           z = event.accelerationIncludingGravity.z;
 
-          // // 重力加速度を除いた加速度値
-          gx = event.acceleration.x;
-          gy = event.acceleration.y;
-          gz = event.acceleration.z;
+          // // // 重力加速度を除いた加速度値
+          // gx = event.acceleration.x;
+          // gy = event.acceleration.y;
+          // gz = event.acceleration.z;
 
-          result1.textContent = gx + "," + gy + "," + gz; 
           result_x.textContent = "X：" + x.toFixed(2);
           result_y.textContent = "Y：" + y.toFixed(2);
           result_z.textContent = "Z：" + z.toFixed(2);
