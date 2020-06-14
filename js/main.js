@@ -46,6 +46,7 @@ const requestDeviceMotionPermission = function(){
     // ボタンクリックで許可を取得
     DeviceMotionEvent.requestPermission()
     .then(permissionState => {
+      output.textContent = "Success";
       if (permissionState === 'granted') {
         // devicemotionをイベントリスナーに追加
         // 加速度センサーの起動
@@ -61,7 +62,7 @@ const requestDeviceMotionPermission = function(){
           gy = event.acceleration.y;
           gz = event.acceleration.z;
 
-          センサー値の表示
+          // センサー値の表示
           result1.innerHTML = "重力加速度<br />"+
           "X：" + gx.toFixed(2) +"(m/s^2)<br />" +
           "Y：" + gy.toFixed(2) +"(m/s^2)<br />" + 
@@ -71,7 +72,7 @@ const requestDeviceMotionPermission = function(){
           result_y.innerHTML = "Y：" + y.toFixed(2);
           result_z.innerHTML = "Z：" + z.toFixed(2);
           
-        });
+        }, false);
 
         // deviceorientationをイベントリスナーの追加
         // ジャイロセンサーを起動
@@ -94,13 +95,13 @@ const requestDeviceMotionPermission = function(){
         }, false);
       } else {
         // センサーアクセス許可が得られなかった場合
-        output.textContent = "Error Comment: Not Accept";
+        output.textContent = "Not Accept";
       }
     })
     .catch(console.error) 
   } else {
     // https通信でない場合などで許可を取得できなかった場合
-    output.textContent = "Error Comment: デバイスが対応していません";
+    output.textContent = "デバイスが対応していません";
   }
 }
 
