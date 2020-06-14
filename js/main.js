@@ -36,17 +36,17 @@ const requestDeviceMotionPermission = function(){
       if (permissionState === 'granted') {
         // devicemotionをイベントリスナーに追加
         // 加速度センサーの起動
-        window.addEventListener('devicemotion', e => {
+        window.addEventListener('devicemotion', event => {
 
           // 重力加速度値の取得
-          x = event.accelerationIncludingGravity.x;
-          y = event.accelerationIncludingGravity.y;
-          z = event.accelerationIncludingGravity.z;
+          // x = event.accelerationIncludingGravity.x;
+          // y = event.accelerationIncludingGravity.y;
+          // z = event.accelerationIncludingGravity.z;
 
           // 重力加速度を除いた加速度値
-          // x = event.acceleration.x;
-          // y = event.acceleration.y;
-          // z = event.acceleration.z;
+          x = event.acceleration.x;
+          y = event.acceleration.y;
+          z = event.acceleration.z;
 
           // センサー値の表示
           result1.innerHTML = "重力加速度<br />"+
@@ -57,7 +57,7 @@ const requestDeviceMotionPermission = function(){
 
         // deviceorientationをイベントリスナーの追加
         // ジャイロセンサーを起動
-        window.addEventListener( "deviceorientation", e => {
+        window.addEventListener( "deviceorientation", event => {
 
           // ジャイロセンサー値取得
           alpha = event.alpha;
