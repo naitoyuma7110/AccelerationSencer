@@ -4,7 +4,7 @@ const sensor_contents= document.getElementById("sensor_contents");
 const sensor_start= document.getElementById("sensor_start");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
-const result1 = document.getElementById("result_acc");
+const result1 = document.getElementById("result1");
 const result_x = document.getElementById("result_x");
 const result_y = document.getElementById("result_y");
 const result_z = document.getElementById("result_z");
@@ -58,10 +58,11 @@ const requestDeviceMotionPermission = function(){
           z = event.accelerationIncludingGravity.z;
 
           // // 重力加速度を除いた加速度値
-          // gx = event.acceleration.x;
-          // gy = event.acceleration.y;
-          // gz = event.acceleration.z;
+          gx = event.acceleration.x;
+          gy = event.acceleration.y;
+          gz = event.acceleration.z;
 
+          result1.textContent = gx + "," + gy + "," + gz; 
           result_x.textContent = "X：" + x.toFixed(2);
           result_y.textContent = "Y：" + y.toFixed(2);
           result_z.textContent = "Z：" + z.toFixed(2);
@@ -105,7 +106,6 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 // クリックで計測データの保存開始
 sensor_start.addEventListener("click", function(){
-
   // 測定開始時間の取得
   firstdate = new Date();
   firsttime = firstdate.getTime();
@@ -125,7 +125,6 @@ sensor_start.addEventListener("click", function(){
   
     // 測定経過時間の表示
     time.textContent = "Time(sec)：" + time_unix;
-    console.log("action");
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
