@@ -62,8 +62,8 @@ const requestDeviceMotionPermission = function(){
           // gy = event.acceleration.y;
           // gz = event.acceleration.z;
 
-          result_x.innerHTML = "X：" + x.toFixed(2);
-          result_y.innerHTML = "Y：" + y.toFixed(2);
+          result_x.textContent = "X：" + x.toFixed(2);
+          result_y.textContent = "Y：" + y.toFixed(2);
           result_z.innerHTML = "Z：" + z.toFixed(2);
           
         }, false);
