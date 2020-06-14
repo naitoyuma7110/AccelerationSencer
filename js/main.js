@@ -62,16 +62,9 @@ const requestDeviceMotionPermission = function(){
           // gy = event.acceleration.y;
           // gz = event.acceleration.z;
 
-          // センサー値の表示
-          result1.innerHTML = "X：" + gx + "Y："+ gy + "Z:" + gz;
-
-          // result_x.innerHTML = "X：" + x.toFixed(2);
-          // result_y.innerHTML = "Y：" + y.toFixed(2);
-          // result_z.innerHTML = "Z：" + z.toFixed(2);
-
-          result_x.innerHTML = "X：" + x;
-          result_y.innerHTML = "Y：" + y;
-          result_z.innerHTML = "Z：" + z;
+          result_x.innerHTML = "X：" + x.toFixed(2);
+          result_y.innerHTML = "Y：" + y.toFixed(2);
+          result_z.innerHTML = "Z：" + z.toFixed(2);
           
         }, false);
 
@@ -127,7 +120,7 @@ sensor_start.addEventListener("click", function(){
     time_unix = Math.round(time_unix/10)/100;
 
     //データを配列で保持 array = [ [...], [...], ...]
-    let acc_gyro = [time_unix, x, y, z, gx, gy, gz, alpha, beta, gamma];
+    let acc_gyro = [time_unix, x, y, z, alpha, beta, gamma];
     datalist.push(acc_gyro);
   
     // 測定経過時間の表示
