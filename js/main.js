@@ -64,7 +64,7 @@ const requestDeviceMotionPermission = function(){
 
           result_x.textContent = "X：" + x.toFixed(2);
           result_y.textContent = "Y：" + y.toFixed(2);
-          result_z.innerHTML = "Z：" + z.toFixed(2);
+          result_z.textContent = "Z：" + z.toFixed(2);
           
         }, false);
 
