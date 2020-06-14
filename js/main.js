@@ -39,14 +39,14 @@ const requestDeviceMotionPermission = function(){
         window.addEventListener('devicemotion', function(event){
 
           // 重力加速度値の取得
-          // x = event.accelerationIncludingGravity.x;
-          // y = event.accelerationIncludingGravity.y;
-          // z = event.accelerationIncludingGravity.z;
+          x = event.accelerationIncludingGravity.x;
+          y = event.accelerationIncludingGravity.y;
+          z = event.accelerationIncludingGravity.z;
 
           // 重力加速度を除いた加速度値
-          x = event.acceleration.x;
-          y = event.acceleration.y;
-          z = event.acceleration.z;
+          // x = event.acceleration.x;
+          // y = event.acceleration.y;
+          // z = event.acceleration.z;
 
           // センサー値の表示
           result1.innerHTML = "重力加速度<br />"+
@@ -77,7 +77,7 @@ const requestDeviceMotionPermission = function(){
     .catch(console.error) 
   } else {
     // https通信でない場合などで許可を取得できなかった場合
-    output.textContent = "Error";
+    output.textContent = "デバイスが対応していません";
   }
 }
 
