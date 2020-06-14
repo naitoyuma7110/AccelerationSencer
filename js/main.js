@@ -57,10 +57,10 @@ const requestDeviceMotionPermission = function(){
           y = event.accelerationIncludingGravity.y;
           z = event.accelerationIncludingGravity.z;
 
-          // 重力加速度を除いた加速度値
-          gx = event.acceleration.x;
-          gy = event.acceleration.y;
-          gz = event.acceleration.z;
+          // // 重力加速度を除いた加速度値
+          // gx = event.acceleration.x;
+          // gy = event.acceleration.y;
+          // gz = event.acceleration.z;
 
           // センサー値の表示
           result1.innerHTML = "X：" + gx + "Y："+ gy + "Z:" + gz;
