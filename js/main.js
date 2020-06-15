@@ -113,6 +113,8 @@ sensor_start.addEventListener("click", function(){
   sensor_stop.removeAttribute("disabled");
   document.getElementById("run").removeAttribute("hidden");
   document.getElementById("stop").setAttribute("hidden", true);
+  document.getElementById("download").classList.add("disabled");
+  
   // 前回保存したセンサー値の破棄
   datalist = [];
 
@@ -142,6 +144,7 @@ sensor_stop.addEventListener("click", function(){
   // ボタンのアクティブ化の切り替え
   sensor_stop.setAttribute("disabled", true);
   sensor_start.removeAttribute("disabled");
+  document.getElementById("download").classList.remove("disabled");
   document.getElementById("stop").removeAttribute("hidden");
   document.getElementById("run").setAttribute("hidden", true);
   // setInterval停止
