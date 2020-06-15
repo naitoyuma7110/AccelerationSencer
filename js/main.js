@@ -111,7 +111,8 @@ sensor_start.addEventListener("click", function(){
   // ボタンのアクティブ化の切り替え
   sensor_start.setAttribute("disabled", true);
   sensor_stop.removeAttribute("disabled");
-
+  document.getElementById("run").removeAttribute("hidden");
+  document.getElementById("stop").setAttribute("hidden", true);
   // 前回保存したセンサー値の破棄
   datalist = [];
 
@@ -141,7 +142,8 @@ sensor_stop.addEventListener("click", function(){
   // ボタンのアクティブ化の切り替え
   sensor_stop.setAttribute("disabled", true);
   sensor_start.removeAttribute("disabled");
-
+  document.getElementById("stop").removeAttribute("hidden");
+  document.getElementById("run").setAttribute("hidden", true);
   // setInterval停止
   clearInterval(startInterval);
 
