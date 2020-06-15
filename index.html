@@ -9,7 +9,7 @@
   
 </head>
 <body>
-  <div id="sensor_contents" class="m-1 btn btn-primary">センサーアクセス</div>
+  <button type="button" id="sensor_contents" class="m-1 btn btn-primary">センサーアクセス</button>
   <div id="output" class="m-1 h5 text-center">　</div>
   <div class="m-3">
     <table class="table table-sm">
@@ -43,10 +43,13 @@
         </tr>
       </tbody>
   </div>
-  <div id="sensor_start" class="m-1 btn btn-secondary">計測スタート</div>
-    <div class="btn btn-secondary m-1"> 
+  <div class="btn-group" role="group">
+    <button type="button" id="sensor_start" class="btn btn-secondary" data-toggle="button">スタート</button>
+    <button type="button" id="sensor_stop" class="btn btn-secondary">ストップ</button>
+    <div class="btn btn-light"> 
       <a id="download">Download</a>
     </div>
+  </div>
   <script src="js/main.js"></script>
 </body>
 </html>

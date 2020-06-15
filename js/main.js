@@ -2,6 +2,7 @@
 // HTML要素の取得
 const sensor_contents= document.getElementById("sensor_contents");
 const sensor_start= document.getElementById("sensor_start");
+const sensor_stop= document.getElementById("sensor_stop");
 const output = document.getElementById('output');
 const time = document.getElementById("time");
 
@@ -13,6 +14,7 @@ const result_al = document.getElementById("result_al");
 const result_be = document.getElementById("result_be");
 const result_ga = document.getElementById("result_ga");
 
+let startInterval;
 
 // 加速度センサー値
 let x = 0;
@@ -36,6 +38,7 @@ let datalist = [];
 
 // アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
+  sensor_contents.setAttribute("disabled", true);
   // デバイスにセンサー機能が実装されているか判定
   if (
     DeviceMotionEvent &&
@@ -104,12 +107,20 @@ sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 // クリックで計測データの保存開始
 sensor_start.addEventListener("click", function(){
+  
+  // ボタンのアクティブ化の切り替え
+  sensor_start.setAttribute("disabled", true);
+  sensor_stop.removeAttribute("disabled");
+
+  // 前回保存したセンサー値の破棄
+  datalist = [];
+
   // 測定開始時間の取得
   firstdate = new Date();
   firsttime = firstdate.getTime();
 
   // 計測データの変数保存開始
-  window.setInterval(() => {
+  startInterval = window.setInterval(() => {
     // 測定経過時間の取得
     let date = new Date();
     let time_unix = date.getTime() - firsttime;
@@ -126,6 +137,15 @@ sensor_start.addEventListener("click", function(){
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
+sensor_stop.addEventListener("click", function(){
+  // ボタンのアクティブ化の切り替え
+  sensor_stop.setAttribute("disabled", true);
+  sensor_start.removeAttribute("disabled");
+
+  // setInterval停止
+  clearInterval(startInterval);
+
+})
 
 
 download.addEventListener("click", function(){
