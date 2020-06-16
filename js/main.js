@@ -219,19 +219,19 @@ let drawingChart = function(){
       labels: timeArray,
       datasets: [
         {
-          label: 'Acceleration X',
+          label: 'X',
           data: xArray,
           borderColor: "rgba(255,0,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
       },
       {
-        label: 'Acceleration Y',
+        label: 'Y',
         data: yArray,
         borderColor: "rgba(0,0,255,1)",
         backgroundColor: "rgba(0,0,0,0)"
       },
       {
-        label: 'Acceleration Z',
+        label: 'Z',
         data: zArray,
         borderColor: "rgba(0,255,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
@@ -241,27 +241,21 @@ let drawingChart = function(){
   options: {
     title: {
       display: true,
-      text: '計測加速度グラフ'
+      text: '加速度値グラフ'
     },
     scales: {
-      yAxes: [{
+      xAxes: [{
         ticks: {
-          Callback: function(value) {
-            if (Math.floor(velue) === value) {
-              return value;
-            }else{
-              return '';
-            }
-          }
-        }
+          display: false
+      }
       }],
       yAxes: [{
         ticks: {
-          suggestedMax: 5,
-          suggestedMin: -5,
+          suggestedMax: 20,
+          suggestedMin: -20,
           stepSize: 5,
           callback: function(value, index, values){
-            return  value +  '(ms/s^2)'
+            return  value
           }
         }
       }]
