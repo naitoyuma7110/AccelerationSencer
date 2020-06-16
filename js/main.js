@@ -224,27 +224,33 @@ let drawingChart = function(){
         {
           label: 'X',
           data: xArray,
-          pointRadius:"1",
+          pointRadius: 1,
+          pointHoverRadius: 0,
           borderColor: "rgba(255,0,0,1)",
           backgroundColor: "rgba(0,0,0,0)"
       },
       {
         label: 'Y',
         data: yArray,
-        pointRadius:"1" ,
+        pointRadius: 1,
+        pointHoverRadius: 0,
         borderColor: "rgba(0,0,255,1)",
         backgroundColor: "rgba(0,0,0,0)"
       },
       {
         label: 'Z',
         data: zArray,
-        pointRadius:"1" ,
+        pointRadius: 1,
+        pointHoverRadius: 0,
         borderColor: "rgba(0,255,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
       }
     ],
   },
   options: {
+    tooltips: {
+      enabled: false
+    },
     title: {
       display: true,
       text: '加速度値グラフ'
