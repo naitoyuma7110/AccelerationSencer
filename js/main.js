@@ -36,10 +36,10 @@ let firsttime;
 let datalist = [];
 
 // グラフ描画用データ値
-let timeArray = [0];
-let xArray = [0];
-let yArray = [0];
-let zArray = [0];
+let timeArray = [];
+let xArray = [];
+let yArray = [];
+let zArray = [];
 
 // アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
@@ -106,11 +106,11 @@ const requestDeviceMotionPermission = function(){
   }
 }
 
-//クリックでデバイスセンサーのアクセス承認を実行
+//デバイスセンサーのアクセス承認を実行
 sensor_contents.addEventListener('click', requestDeviceMotionPermission, false);
 
 
-// クリックで計測データの保存開始
+//計測開始
 sensor_start.addEventListener("click", function(){
   
   // ボタンのアクティブ化の切り替え
@@ -147,7 +147,9 @@ sensor_start.addEventListener("click", function(){
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
+// 計測終了
 sensor_stop.addEventListener("click", function(){
+
   // ボタンのアクティブ化の切り替え
   sensor_stop.setAttribute("disabled", true);
   sensor_start.removeAttribute("disabled");
@@ -158,25 +160,27 @@ sensor_stop.addEventListener("click", function(){
   // setInterval停止
   clearInterval(startInterval);
 
-  // グラフ描画
+  // 前回データの破棄
+  timeArray = [];
+  xArray = [];
+  yArray = [];
+  zArray = [];
+  
+  // グラフ描画用データの準備
   for (let i = 0; i < datalist.length; i++) {
     timeArray.push(datalist[i][0]);
     xArray.push(datalist[i][1]);
     yArray.push(datalist[i][2]);
     zArray.push(datalist[i][3]);
   }
-
-
-
-  console.log(timeArray);
-
+  
+  // グラフ描画
   drawingChart();
 
 })
 
 download.addEventListener("click", function(){
   // デバッグ用ダミー計測値
-  
   // acc_gyro = [1,3,2,-2,5,2,1];
   // datalist.push(acc);
   
@@ -211,6 +215,7 @@ download.addEventListener("click", function(){
   link.download = 'センサー計測値.csv';
 })
 
+
 let drawingChart = function(){
   if (myLineChart) {
     myLineChart.destroy();
@@ -226,6 +231,7 @@ let drawingChart = function(){
           data: xArray,
           pointRadius: 1,
           pointHoverRadius: 0,
+          borderWidth: 1,
           borderColor: "rgba(255,0,0,1)",
           backgroundColor: "rgba(0,0,0,0)"
       },
@@ -234,6 +240,7 @@ let drawingChart = function(){
         data: yArray,
         pointRadius: 1,
         pointHoverRadius: 0,
+        borderWidth: 1,
         borderColor: "rgba(0,0,255,1)",
         backgroundColor: "rgba(0,0,0,0)"
       },
@@ -242,6 +249,7 @@ let drawingChart = function(){
         data: zArray,
         pointRadius: 1,
         pointHoverRadius: 0,
+        borderWidth: 1,
         borderColor: "rgba(0,255,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
       }
@@ -253,7 +261,7 @@ let drawingChart = function(){
     },
     title: {
       display: true,
-      text: '加速度値グラフ'
+      text: 'Acceleration'
     },
     scales: {
       xAxes: [{
