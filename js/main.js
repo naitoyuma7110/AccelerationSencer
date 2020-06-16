@@ -212,6 +212,9 @@ download.addEventListener("click", function(){
 })
 
 let drawingChart = function(){
+  if (myLineChart) {
+    myLineChart.destroy();
+  }
   var ctx = document.getElementById("myChart");
   var myLineChart = new Chart(ctx, {
     type: 'line',
@@ -221,18 +224,21 @@ let drawingChart = function(){
         {
           label: 'X',
           data: xArray,
+          pointRadius:"1",
           borderColor: "rgba(255,0,0,1)",
-        backgroundColor: "rgba(0,0,0,0)"
+          backgroundColor: "rgba(0,0,0,0)"
       },
       {
         label: 'Y',
         data: yArray,
+        pointRadius:"1" ,
         borderColor: "rgba(0,0,255,1)",
         backgroundColor: "rgba(0,0,0,0)"
       },
       {
         label: 'Z',
         data: zArray,
+        pointRadius:"1" ,
         borderColor: "rgba(0,255,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
       }
@@ -254,9 +260,6 @@ let drawingChart = function(){
           suggestedMax: 20,
           suggestedMin: -20,
           stepSize: 5,
-          callback: function(value, index, values){
-            return  value
-          }
         }
       }]
     },
