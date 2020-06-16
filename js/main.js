@@ -35,6 +35,11 @@ let firstdate;
 let firsttime;
 let datalist = [];
 
+// グラフ描画用データ値
+let timeArray = [0];
+let xArray = [0];
+let yArray = [0];
+let zArray = [0];
 
 // アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
@@ -128,15 +133,17 @@ sensor_start.addEventListener("click", function(){
     let date = new Date();
     let time_unix = date.getTime() - firsttime;
 
-    // 経過時間下一桁切り捨て10ms単位
+    // 経過時間下一桁切り捨て0.01ms単位
     time_unix = Math.round(time_unix/10)/100;
 
     //データを配列で保持 array = [ [...], [...], ...]
     let acc_gyro = [time_unix, x, y, z, alpha, beta, gamma];
     datalist.push(acc_gyro);
-  
+
     // 測定経過時間の表示
     time.textContent = "Time(sec)：" + time_unix;
+
+    
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
@@ -147,11 +154,25 @@ sensor_stop.addEventListener("click", function(){
   document.getElementById("download").classList.remove("disabled");
   document.getElementById("stop").removeAttribute("hidden");
   document.getElementById("run").setAttribute("hidden", true);
+  
   // setInterval停止
   clearInterval(startInterval);
 
-})
+  // グラフ描画
+  for (let i = 0; i < datalist.length; i++) {
+    timeArray.push(datalist[i][0]);
+    xArray.push(datalist[i][1]);
+    yArray.push(datalist[i][2]);
+    zArray.push(datalist[i][3]);
+  }
 
+
+
+  console.log(timeArray);
+
+  drawingChart();
+
+})
 
 download.addEventListener("click", function(){
   // デバッグ用ダミー計測値
@@ -190,3 +211,61 @@ download.addEventListener("click", function(){
   link.download = 'センサー計測値.csv';
 })
 
+let drawingChart = function(){
+  var ctx = document.getElementById("myChart");
+  var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: timeArray,
+      datasets: [
+        {
+          label: 'Acceleration X',
+          data: xArray,
+          borderColor: "rgba(255,0,0,1)",
+        backgroundColor: "rgba(0,0,0,0)"
+      },
+      {
+        label: 'Acceleration Y',
+        data: yArray,
+        borderColor: "rgba(0,0,255,1)",
+        backgroundColor: "rgba(0,0,0,0)"
+      },
+      {
+        label: 'Acceleration Z',
+        data: zArray,
+        borderColor: "rgba(0,255,0,1)",
+        backgroundColor: "rgba(0,0,0,0)"
+      }
+    ],
+  },
+  options: {
+    title: {
+      display: true,
+      text: '計測加速度グラフ'
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          Callback: function(value) {
+            if (Math.floor(velue) === value) {
+              return value;
+            }else{
+              return '';
+            }
+          }
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          suggestedMax: 5,
+          suggestedMin: -5,
+          stepSize: 5,
+          callback: function(value, index, values){
+            return  value +  '(ms/s^2)'
+          }
+        }
+      }]
+    },
+  }
+});
+}
