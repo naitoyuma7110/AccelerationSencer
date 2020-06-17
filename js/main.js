@@ -126,6 +126,15 @@ sensor_start.addEventListener("click", function(){
   // 前回保存したセンサー値の破棄
   datalist = [];
 
+  // 前回グラフデータの破棄
+    timeArray = [];
+    xArray = [];
+    yArray = [];
+    zArray = [];
+    alphaArray = [];
+    betaArray = [];
+    gammaArray = [];
+
   // 測定開始時間の取得
   firstdate = new Date();
   firsttime = firstdate.getTime();
@@ -145,27 +154,26 @@ sensor_start.addEventListener("click", function(){
 
     // 測定経過時間の表示
     time.textContent = "Time(sec)：" + time_unix;
-
-    // 前回データの破棄
-  timeArray = [];
-  xArray = [];
-  yArray = [];
-  zArray = [];
-  alphaArray = [];
-  betaArray = [];
-  gammaArray = [];
   
-  // グラフ描画用データの準備
-  for (let i = 0; i < datalist.length; i++) {
-    timeArray.push(datalist[i][0]);
-    xArray.push(datalist[i][1]);
-    yArray.push(datalist[i][2]);
-    zArray.push(datalist[i][3]);
-    alphaArray.push(datalist[i][4]);
-    alphaArray.push(datalist[i][5]);
-    alphaArray.push(datalist[i][6]);
-  }
-  // グラフ描画
+  // グラフ描画用データの保持
+    timeArray.push(time_unix);
+    xArray.push(x);
+    yArray.push(y);
+    zArray.push(z);
+    alphaArray.push(alpha);
+    betaArray.push(beta);
+    gammaArray.push(gamma);
+    
+    // グラフデータの準備
+    // for (let i = 0; i < datalist.length; i++) {
+    //   timeArray.push(datalist[i][0]);
+    //   xArray.push(datalist[i][1]);
+    //   yArray.push(datalist[i][2]);
+    //   zArray.push(datalist[i][3]);
+    //   alphaArray.push(datalist[i][4]);
+    //   alphaArray.push(datalist[i][5]);
+    //   alphaArray.push(datalist[i][6]);
+    // }  
   drawingChart();
 
   }, 10); //10ms（0.01秒）毎に実行 
@@ -236,29 +244,29 @@ let drawingChart = function(){
       labels: timeArray,
       datasets: [
         {
-          label: 'X',
           data: xArray,
-          pointRadius: 1,
-          pointHoverRadius: 0,
-          borderWidth: 1,
+          label: 'X',
+          pointRadius:1,
+          pointHoverRadius:0,
+          borderWidth:1,
           borderColor: "rgba(255,0,0,1)",
           backgroundColor: "rgba(0,0,0,0)"
       },
       {
-        label: 'Y',
         data: yArray,
-        pointRadius: 1,
-        pointHoverRadius: 0,
-        borderWidth: 1,
+        label: 'Y',
+        pointRadius:1,
+        pointHoverRadius:0,
+        borderWidth:1,
         borderColor: "rgba(0,0,255,1)",
         backgroundColor: "rgba(0,0,0,0)"
       },
       {
-        label: 'Z',
         data: zArray,
-        pointRadius: 1,
-        pointHoverRadius: 0,
-        borderWidth: 1,
+        label: 'Z',
+        pointRadius:1,
+        pointHoverRadius:0,
+        borderWidth:1,
         borderColor: "rgba(0,255,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
       }
@@ -304,35 +312,36 @@ if (myGyroLineChart) {
   myGyroLineChart.destroy();
 }
 var ctxGyro = document.getElementById("gyroChart").getContext('2d');
+
 var myGyroLineChart = new Chart(ctxGyro, {
   type: 'line',
   data: {
     labels: timeArray,
     datasets: [
       {
-        label: 'X',
         data: alphaArray,
-        pointRadius: 1,
-        pointHoverRadius: 0,
-        borderWidth: 1,
+        label: 'Alpha',
+        pointRadius:1,
+        pointHoverRadius:0,
+        borderWidth:1,
         borderColor: "rgba(255,0,0,1)",
         backgroundColor: "rgba(0,0,0,0)"
     },
     {
-      label: 'Y',
       data: betaArray,
-      pointRadius: 1,
-      pointHoverRadius: 0,
-      borderWidth: 1,
+      label: 'Beta',
+      pointRadius:1,
+      pointHoverRadius:0,
+      borderWidth:1,
       borderColor: "rgba(0,0,255,1)",
       backgroundColor: "rgba(0,0,0,0)"
     },
     {
-      label: 'Z',
-      data: gamma,
-      pointRadius: 1,
-      pointHoverRadius: 0,
-      borderWidth: 1,
+      label: 'Gamma',
+      data: gammaArray,
+      pointRadius:1,
+      pointHoverRadius:0,
+      borderWidth:1,
       borderColor: "rgba(0,255,0,1)",
       backgroundColor: "rgba(0,0,0,0)"
     }
