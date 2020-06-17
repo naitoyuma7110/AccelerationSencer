@@ -158,7 +158,7 @@ sensor_start.addEventListener("click", function(){
   }
   // グラフ描画
   drawingChart();
-  
+
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
@@ -174,23 +174,6 @@ sensor_stop.addEventListener("click", function(){
   
   // setInterval停止
   clearInterval(startInterval);
-
-  // // 前回データの破棄
-  // timeArray = [];
-  // xArray = [];
-  // yArray = [];
-  // zArray = [];
-  
-  // // グラフ描画用データの準備
-  // for (let i = 0; i < datalist.length; i++) {
-  //   timeArray.push(datalist[i][0]);
-  //   xArray.push(datalist[i][1]);
-  //   yArray.push(datalist[i][2]);
-  //   zArray.push(datalist[i][3]);
-  // }
-  // // グラフ描画
-  // drawingChart();
-  
 
 })
 
@@ -235,7 +218,8 @@ let drawingChart = function(){
   if (myLineChart) {
     myLineChart.destroy();
   }
-  var ctx = document.getElementById("myChart");
+  var ctx = document.getElementById("myChart").getContext('2d');
+  
   var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
