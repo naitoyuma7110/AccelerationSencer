@@ -271,6 +271,9 @@ let drawingChart = function(){
     },
     scales: {
       xAxes: [{
+        gridLines:{
+          display:false
+        },
         ticks: {
           display: false
       }
