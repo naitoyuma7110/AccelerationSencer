@@ -40,6 +40,9 @@ let timeArray = [];
 let xArray = [];
 let yArray = [];
 let zArray = [];
+let alphaArray = [];
+let betaArray = [];
+let gammaArray = [];
 
 // アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
@@ -148,6 +151,9 @@ sensor_start.addEventListener("click", function(){
   xArray = [];
   yArray = [];
   zArray = [];
+  alphaArray = [];
+  betaArray = [];
+  gammaArray = [];
   
   // グラフ描画用データの準備
   for (let i = 0; i < datalist.length; i++) {
@@ -155,6 +161,9 @@ sensor_start.addEventListener("click", function(){
     xArray.push(datalist[i][1]);
     yArray.push(datalist[i][2]);
     zArray.push(datalist[i][3]);
+    alphaArray.push(datalist[i][4]);
+    alphaArray.push(datalist[i][5]);
+    alphaArray.push(datalist[i][6]);
   }
   // グラフ描画
   drawingChart();
@@ -215,12 +224,13 @@ download.addEventListener("click", function(){
 
 
 let drawingChart = function(){
-  if (myLineChart) {
-    myLineChart.destroy();
+  // Accelerationグラフ
+  if (myAccLineChart) {
+    myAccLineChart.destroy();
   }
-  var ctx = document.getElementById("myChart").getContext('2d');
+  var ctxAcc = document.getElementById("accChart").getContext('2d');
 
-  var myLineChart = new Chart(ctx, {
+  var myAccLineChart = new Chart(ctxAcc, {
     type: 'line',
     data: {
       labels: timeArray,
@@ -287,5 +297,79 @@ let drawingChart = function(){
       }]
     },
   }
+});
+
+// Gyroグラフ
+if (myGyroLineChart) {
+  myGyroLineChart.destroy();
+}
+var ctxGyro = document.getElementById("gyroChart").getContext('2d');
+var myGyroLineChart = new Chart(ctxGyro, {
+  type: 'line',
+  data: {
+    labels: timeArray,
+    datasets: [
+      {
+        label: 'X',
+        data: alphaArray,
+        pointRadius: 1,
+        pointHoverRadius: 0,
+        borderWidth: 1,
+        borderColor: "rgba(255,0,0,1)",
+        backgroundColor: "rgba(0,0,0,0)"
+    },
+    {
+      label: 'Y',
+      data: betaArray,
+      pointRadius: 1,
+      pointHoverRadius: 0,
+      borderWidth: 1,
+      borderColor: "rgba(0,0,255,1)",
+      backgroundColor: "rgba(0,0,0,0)"
+    },
+    {
+      label: 'Z',
+      data: gamma,
+      pointRadius: 1,
+      pointHoverRadius: 0,
+      borderWidth: 1,
+      borderColor: "rgba(0,255,0,1)",
+      backgroundColor: "rgba(0,0,0,0)"
+    }
+  ],
+},
+options: {
+  animation: {
+    duration: 0
+  },
+  hover: {
+    animationDuration: 0
+  },
+  responsiveAnimationDuration: 0,
+  tooltips: {
+    enabled: false
+  },
+  title: {
+    display: true,
+    text: 'Gyro'
+  },
+  scales: {
+    xAxes: [{
+      gridLines:{
+        display:false
+      },
+      ticks: {
+        display: false
+    }
+    }],
+    yAxes: [{
+      ticks: {
+        suggestedMax: 360,
+        suggestedMin: 0,
+        stepSize: 90,
+      }
+    }]
+  },
+}
 });
 }
