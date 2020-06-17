@@ -143,7 +143,22 @@ sensor_start.addEventListener("click", function(){
     // 測定経過時間の表示
     time.textContent = "Time(sec)：" + time_unix;
 
-    
+    // 前回データの破棄
+  timeArray = [];
+  xArray = [];
+  yArray = [];
+  zArray = [];
+  
+  // グラフ描画用データの準備
+  for (let i = 0; i < datalist.length; i++) {
+    timeArray.push(datalist[i][0]);
+    xArray.push(datalist[i][1]);
+    yArray.push(datalist[i][2]);
+    zArray.push(datalist[i][3]);
+  }
+  // グラフ描画
+  drawingChart();
+  
   }, 10); //10ms（0.01秒）毎に実行 
 })
 
@@ -160,22 +175,22 @@ sensor_stop.addEventListener("click", function(){
   // setInterval停止
   clearInterval(startInterval);
 
-  // 前回データの破棄
-  timeArray = [];
-  xArray = [];
-  yArray = [];
-  zArray = [];
+  // // 前回データの破棄
+  // timeArray = [];
+  // xArray = [];
+  // yArray = [];
+  // zArray = [];
   
-  // グラフ描画用データの準備
-  for (let i = 0; i < datalist.length; i++) {
-    timeArray.push(datalist[i][0]);
-    xArray.push(datalist[i][1]);
-    yArray.push(datalist[i][2]);
-    zArray.push(datalist[i][3]);
-  }
+  // // グラフ描画用データの準備
+  // for (let i = 0; i < datalist.length; i++) {
+  //   timeArray.push(datalist[i][0]);
+  //   xArray.push(datalist[i][1]);
+  //   yArray.push(datalist[i][2]);
+  //   zArray.push(datalist[i][3]);
+  // }
+  // // グラフ描画
+  // drawingChart();
   
-  // グラフ描画
-  drawingChart();
 
 })
 
@@ -256,6 +271,13 @@ let drawingChart = function(){
     ],
   },
   options: {
+    animation: {
+      duration: 0
+    },
+    hover: {
+      animationDuration: 0
+    },
+    responsiveAnimationDuration: 0,
     tooltips: {
       enabled: false
     },
