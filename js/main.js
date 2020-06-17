@@ -219,7 +219,7 @@ let drawingChart = function(){
     myLineChart.destroy();
   }
   var ctx = document.getElementById("myChart").getContext('2d');
-  
+
   var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -277,8 +277,8 @@ let drawingChart = function(){
       }],
       yAxes: [{
         ticks: {
-          suggestedMax: 20,
-          suggestedMin: -20,
+          suggestedMax: 15,
+          suggestedMin: -15,
           stepSize: 5,
         }
       }]
