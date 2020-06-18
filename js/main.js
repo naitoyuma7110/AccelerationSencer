@@ -40,9 +40,6 @@ let timeArray = [];
 let xArray = [];
 let yArray = [];
 let zArray = [];
-let alphaArray = [];
-let betaArray = [];
-let gammaArray = [];
 
 // アクセス許可を求めデバイスモーションセンサーを起動
 const requestDeviceMotionPermission = function(){
@@ -160,21 +157,8 @@ sensor_start.addEventListener("click", function(){
     xArray.push(x);
     yArray.push(y);
     zArray.push(z);
-    alphaArray.push(alpha);
-    betaArray.push(beta);
-    gammaArray.push(gamma);
-    
-    // グラフデータの準備
-    // for (let i = 0; i < datalist.length; i++) {
-    //   timeArray.push(datalist[i][0]);
-    //   xArray.push(datalist[i][1]);
-    //   yArray.push(datalist[i][2]);
-    //   zArray.push(datalist[i][3]);
-    //   alphaArray.push(datalist[i][4]);
-    //   alphaArray.push(datalist[i][5]);
-    //   alphaArray.push(datalist[i][6]);
-    // }  
-  drawingChart();
+
+    drawingChart();
 
   }, 10); //10ms（0.01秒）毎に実行 
 })
@@ -307,78 +291,4 @@ let drawingChart = function(){
   }
 });
 
-// Gyroグラフ
-if (myGyroLineChart) {
-  myGyroLineChart.destroy();
-}
-var ctxGyro = document.getElementById("gyroChart").getContext('2d');
-
-var myGyroLineChart = new Chart(ctxGyro, {
-  type: 'line',
-  data: {
-    labels: timeArray,
-    datasets: [
-      {
-        data: alphaArray,
-        label: 'Alpha',
-        pointRadius:1,
-        pointHoverRadius:0,
-        borderWidth:1,
-        borderColor: "rgba(255,0,0,1)",
-        backgroundColor: "rgba(0,0,0,0)"
-    },
-    {
-      data: betaArray,
-      label: 'Beta',
-      pointRadius:1,
-      pointHoverRadius:0,
-      borderWidth:1,
-      borderColor: "rgba(0,0,255,1)",
-      backgroundColor: "rgba(0,0,0,0)"
-    },
-    {
-      label: 'Gamma',
-      data: gammaArray,
-      pointRadius:1,
-      pointHoverRadius:0,
-      borderWidth:1,
-      borderColor: "rgba(0,255,0,1)",
-      backgroundColor: "rgba(0,0,0,0)"
-    }
-  ],
-},
-options: {
-  animation: {
-    duration: 0
-  },
-  hover: {
-    animationDuration: 0
-  },
-  responsiveAnimationDuration: 0,
-  tooltips: {
-    enabled: false
-  },
-  title: {
-    display: true,
-    text: 'Gyro'
-  },
-  scales: {
-    xAxes: [{
-      gridLines:{
-        display:false
-      },
-      ticks: {
-        display: false
-    }
-    }],
-    yAxes: [{
-      ticks: {
-        suggestedMax: 360,
-        suggestedMin: 0,
-        stepSize: 90,
-      }
-    }]
-  },
-}
-});
 }
